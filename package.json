@@ -1,0 +1,19 @@
+{
+  "name": "movie-db",
+  "version": "1.0.0",
+  "description": "App de movies siguiendo curso de Curso de API REST con Javascript: Ejemplos con APIs reales de Platzi",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ving399/Movie-DB.git"
+  },
+  "author": "ving399",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ving399/Movie-DB/issues"
+  },
+  "homepage": "https://github.com/Ving399/Movie-DB#readme"
+}
