@@ -1,3 +1,6 @@
+//Esta seccion define a que hash te lleva segun el boton que preciones
+//
+
 searchFormBtn.addEventListener('click', () => {
    location.hash = '#search=';
 })
@@ -12,7 +15,11 @@ arrowBtn.addEventListener('click', () => {
 
 
 window.addEventListener('DOMContentLoaded', navigator, false);
-window.addEventListener('hashchange', navigator, false); // aqui llamas a la funcion y le dices quye funcion ejecutar cada que cambie el hash
+window.addEventListener('hashchange', navigator, false);     // aqui llamas a la funcion y le dices que funcion ejecutar cada que cambie el hash
+
+//Esta funcion define el funcionamiento de los hash
+//Revisa con el if si el hash es tal, y ejecuta la funcion
+//La funcion interna esta definida pora habilitar o desabilitar html y estilos
 
 function navigator() {
     console.log({ location });
@@ -26,12 +33,14 @@ function navigator() {
     } else if (location.hash.startsWith('#category=')) {
         categoriesPage();
     } else {
-        homePage();
+        homePage(); //Si no se cumple ninguna de las otras, estaremos siempre en home
     }
 
 
     location.hash
 }
+//Estas funciones son las que habilitan o deshabiitan estilos y secciones del html
+//Son llamadas en las condicionales de arriba
 
 function homePage() {
     console.log('Home!!!!');

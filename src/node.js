@@ -1,3 +1,8 @@
+//En este script llamado Node. 
+//Creamos las variables que usaremos para apagar o prender etiquetas de estilo y de html
+//Cada variable apunta a un ID o a una Class
+//Estas variables las usamos en navigation, ahi definimos si estan prendidas o apagadas
+
 // Sections
 const headerSection = document.querySelector('#header');
 const trendingPreviewSection = document.querySelector('#trendingPreview');
