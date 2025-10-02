@@ -9,19 +9,14 @@ const api = axios.create({
 });
 
 
-// CREANDO EL CONTENEDOR DE LAS PELICULAS
-//Funcion para conseguir peliculas en tendencia
-async function getTrendingMoviesPreview() {     
-    const {data} = await api('trending/movie/day');
+//utils
 
-    const movies = data.results //mete a una variable la respuesta
-    console.log(data, movies); //imprime la variable
-    
-    //estamos creando el html del contenedor del mvie del index
-    //El foreach toma todos los datos de json y los convierte en el html del indx
-    movies.forEach(movie => {
+function createMovies(movies, container) {
+    container.innerHTML = '';
 
-        const trendingMoviesPreviewList = document.querySelector('#trendingPreview .trendingPreview-movieList'); //tomamos el id y la clase principal del article contenedor
+        movies.forEach(movie => {
+
+        //const trendingMoviesPreviewList = document.querySelector('#trendingPreview .trendingPreview-movieList'); //tomamos el id y la clase principal del article contenedor
         const movieContainer = document.createElement('div'); //metenmos cad apelicula en un div
         movieContainer.classList.add('movie-container');     //le damos la clase movie container
         
@@ -33,8 +28,46 @@ async function getTrendingMoviesPreview() {
             'https://image.tmdb.org/t/p/w300'+ movie.poster_path );
 
         movieContainer.appendChild(movieImg);          //le agregamos la imagen que ya creamos y trajimos del json al div principal
-        trendingMoviesPreviewList.appendChild(movieContainer); //metemos en el article las imagenes que tengamos en el json segun la estructura que ya definimos por cada img
+        container.appendChild(movieContainer); //metemos en el article las imagenes que tengamos en el json segun la estructura que ya definimos por cada img
     });
+}
+
+function createCategories(categories, container) {
+    container.innerHTML = '';
+
+    categories.forEach(category => {
+
+        const categoryContainer = document.createElement('div');
+        categoryContainer.classList.add('category-container');     
+        
+        const categoryTitle = document.createElement('h3') 
+        categoryTitle.classList.add('category-title');           
+        categoryTitle.setAttribute('id', 'id'+category.id);
+
+        categoryTitle.addEventListener( 'click', ()=> {
+           location.hash = `#category=${category.id}-${category.name}`; 
+        });  
+
+        const categoryTitleText = document.createTextNode(category.name);
+
+        categoryTitle.appendChild(categoryTitleText);
+        categoryContainer.appendChild(categoryTitle);
+        container.appendChild(categoryContainer);
+    });
+
+}
+
+
+// CREANDO EL CONTENEDOR DE LAS PELICULAS
+//Funcion para conseguir peliculas en tendencia
+async function getTrendingMoviesPreview() {     
+    const {data} = await api('trending/movie/day');
+
+    const movies = data.results //mete a una variable la respuesta
+    console.log(data, movies); //imprime la variable
+
+    createMovies(movies, trendingMoviesPreviewList);
+
 }
 
 async function getCategoriesPreview() {
@@ -42,23 +75,19 @@ async function getCategoriesPreview() {
 
     const categories = data.genres
     console.log(data, categories); 
-    
- 
-    categories.forEach(category => {
 
-        const categoriesPreviewList = document.querySelector('#categoriesPreview .categoriesPreview-list');
-
-        const categoryContainer = document.createElement('div');
-        categoryContainer.classList.add('category-container');     
-        
-        const categoryTitle = document.createElement('h3') 
-        categoryTitle.classList.add('category-title');           
-        categoryTitle.setAttribute('id', 'id'+category.id);      
-        const categoryTitleText = document.createTextNode(category.name);
-
-        categoryTitle.appendChild(categoryTitleText);
-        categoryContainer.appendChild(categoryTitle);
-        categoriesPreviewList.appendChild(categoryContainer);
-    });
+    createCategories(categories, categoriesPreviewList);
 }
 
+async function getMoviesByCategory(id) {     
+    const {data} = await api('/discover/movie',{
+        params: {
+            with_genres: id,
+        },
+    });
+
+    const movies = data.results //mete a una variable la respuesta
+    console.log(data, movies); //imprime la variable
+    
+    createMovies(movies, genericSection);
+}
